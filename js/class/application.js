@@ -60,7 +60,7 @@ $.Class('Application', {
                 this._bullets[id].move();
             }
         }
-
+        //this._enemy.move();
         this._area.draw();
     },
 

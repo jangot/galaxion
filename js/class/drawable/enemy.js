@@ -16,15 +16,6 @@ Drawable.Abstract('Drawable.Enemy', {
     },
 
     draw : function () {
-//        var ctx = this._context();
-//        ctx.fillStyle = '20b2aa';
-//        ctx .fillRect(
-//            this._position.x,
-//            this._position.y,
-//            this._width,
-//            this._height
-//        );
-
         for (var i in this._items) {
             if (!this._items[i].isDead()) {
                 var position = this._getItemPosition(i);
@@ -34,6 +25,16 @@ Drawable.Abstract('Drawable.Enemy', {
                 ;
             }
         }
+    },
+
+    getHeight : function () {
+        for (var i in this._items) {
+
+        }
+    },
+
+    move : function () {
+        this._position.y++;
     },
 
     killItem : function (id) {
