@@ -10,15 +10,48 @@ Drawable.Abstract('Drawable.User', {
     },
 
     draw : function () {
-        var ctx = this._context();
-            ctx.fillStyle = 'd2691e';
-            ctx .fillRect(
-                this._position.x,
-                this._position.y,
-                this._width,
-                this._height
-            );
+        var context = this._context();
 
+        context.beginPath();
+        context.fillStyle = 'ff9066';
+        context.fillRect(
+            this._position.x,
+            this._position.y + 2,
+            2,
+            6
+        );
+        context.fillRect(
+            this._position.x + 9,
+            this._position.y + 2,
+            2,
+            6
+        );
+        context.fillRect(
+            this._position.x + 2,
+            this._position.y + 4,
+            7,
+            3
+        );
+        context.fillRect(
+            this._position.x + 5,
+            this._position.y,
+            1,
+            4
+        );
+
+        context.fillStyle = 'fffd68';
+        context.fillRect(
+            this._position.x,
+            this._position.y + 8,
+            2,
+            2
+        );
+        context.fillRect(
+            this._position.x + 9,
+            this._position.y + 8,
+            2,
+            2
+        );
     },
 
     toRight : function () {

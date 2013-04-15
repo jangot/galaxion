@@ -15,6 +15,7 @@ Drawable.Abstract('Drawable.Bullet', {
 
     draw : function () {
         var ctx = this._context();
+        ctx.fillStyle = 'ffffff';
         ctx.fillRect(
             this._position.x,
             this._position.y,

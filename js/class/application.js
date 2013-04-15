@@ -8,6 +8,7 @@ $.Class('Application', {
     _bullets : null,
     _maxBullets : null,
     _shots : null,
+    _interval : null,
 
     init : function () {
         this._canvas = $('<canvas width="250" height="400"></canvas>')[0];
@@ -25,11 +26,21 @@ $.Class('Application', {
             ._createUserUnit()
             ._createEnemy()
             ._setListeners()
+            .pause()
         ;
-        this._area.draw();
-        setInterval(function () {
-            self._tik();
-        }, 100);
+    },
+
+    pause : function () {
+        var self = this;
+        if (this._interval) {
+            clearInterval(this._interval);
+            this._interval = null;
+        } else {
+            this._interval = setInterval(function () {
+                self._tik();
+            }, 100);
+        }
+        return this;
     },
 
     shot : function () {
@@ -51,6 +62,14 @@ $.Class('Application', {
     },
 
     _tik : function () {
+        var enemyHeight = this._enemy.getHeight();
+        var enemyBottom = this._enemy.getPosition().y + enemyHeight;
+        var criticalPosition = (this._area.getHeight() - 10);
+        if (enemyHeight < 1 || enemyBottom > criticalPosition) {
+            var al = new Drawable.Alert(this._area, 'alert', 'Game over.');
+            al.draw();
+            return;
+        }
         for (var id in this._bullets) {
             var cross = this._enemy.isCross(this._bullets[id]);
             if (cross) {
@@ -60,7 +79,7 @@ $.Class('Application', {
                 this._bullets[id].move();
             }
         }
-        //this._enemy.move();
+        this._enemy.move();
         this._area.draw();
     },
 
@@ -79,13 +98,25 @@ $.Class('Application', {
     _setListeners : function () {
         var self = this;
         this._keyboard.onPress(CONST.KEY_LEFT, function () {
+            if (!self._interval) {
+                return;
+            }
             self._userUnit.toLeft()
         });
         this._keyboard.onPress(CONST.KEY_RIGHT, function () {
+            if (!self._interval) {
+                return;
+            }
             self._userUnit.toRight()
         });
-        this._keyboard.onPress(CONST.KEY_TOP, function () {
+        this._keyboard.onPress([CONST.KEY_SPACE, CONST.KEY_TOP], function () {
+            if (!self._interval) {
+                return;
+            }
             self.shot();
+        });
+        this._keyboard.onPress(CONST.KEY_ESC, function () {
+            self.pause();
         });
         return this;
     }

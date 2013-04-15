@@ -15,6 +15,7 @@ sc('class/drawable/user');
 sc('class/drawable/enemy');
 sc('class/drawable/enemy/item');
 sc('class/drawable/bullet');
+sc('class/drawable/alert');
 
 
 sc('class/area');

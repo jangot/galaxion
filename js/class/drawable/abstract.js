@@ -66,7 +66,6 @@ $.Class('Drawable.Abstract', {
             } catch (e) {
                 console.log(e);
             }
-
         }
     },
 
@@ -85,7 +84,6 @@ $.Class('Drawable.Abstract', {
             (position1.y + this.getHeight() >= position2.y)
                 && (position1.y <= position2.y + object.getHeight())
             ) YColl = true;
-
         return (XColl&YColl);
     },
 

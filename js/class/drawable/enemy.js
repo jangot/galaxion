@@ -1,11 +1,19 @@
-Drawable.Abstract('Drawable.Enemy', {
+Drawable.Abstract('Drawable.Enemy',{
+
+    SECOND_LINE_ITEM_INDEX : 9,
+    THIRD_LINE_ITEM_INDEX : 19,
+    ROUTE_LEFT : 'left',
+    ROUTE_RIGHT : 'right'
+
+}, {
 
     _items : null,
+    _route : null,
 
     init : function (area, id) {
         this._super(area, id);
         this._height = 100;
-        this._width = area.getWidth() - 40;
+        this._width = area.getWidth() - 30;
 
         this._items = [];
         this
@@ -13,6 +21,7 @@ Drawable.Abstract('Drawable.Enemy', {
             ._createItems()
         ;
 
+        this._route = this.constructor.ROUTE_LEFT;
     },
 
     draw : function () {
@@ -28,13 +37,43 @@ Drawable.Abstract('Drawable.Enemy', {
     },
 
     getHeight : function () {
-        for (var i in this._items) {
-
+        var result = 0;
+        var lastIndexItemIsLive = this._getLastLiveItemIndex();
+        if ($.type(lastIndexItemIsLive) !== 'null') {
+            result += 22;
         }
+        if (lastIndexItemIsLive > this.constructor.SECOND_LINE_ITEM_INDEX) {
+            result += 28;
+        }
+        if (lastIndexItemIsLive > this.constructor.THIRD_LINE_ITEM_INDEX) {
+            result += 16;
+        }
+
+        return result;
     },
 
     move : function () {
-        this._position.y++;
+        var stepVertical = 3;
+        var stepHorizontally = 3
+        switch (this._route) {
+            case this.constructor.ROUTE_LEFT:
+                this._position.x -= stepHorizontally;
+                if (this._position.x < 4) {
+                    this._route = this.constructor.ROUTE_RIGHT;
+                    this._position.x = 4;
+                    this._position.y += stepVertical;
+                }
+                break;
+            case this.constructor.ROUTE_RIGHT:
+                this._position.x += stepHorizontally;
+                var maxRightPosition = this._area.getWidth() - this.getWidth();
+                if (this._position.x > maxRightPosition) {
+                    this._route = this.constructor.ROUTE_LEFT;
+                    this._position.x = maxRightPosition;
+                    this._position.y += stepVertical;
+                }
+                break;
+        }
     },
 
     killItem : function (id) {
@@ -73,19 +112,27 @@ Drawable.Abstract('Drawable.Enemy', {
     _getItemPosition : function (index) {
         var mainY = this._position.y;
         var x = this._position.x + Number(index) * Number(22);
-        if (index > 9) {
+        if (index > this.constructor.SECOND_LINE_ITEM_INDEX) {
             mainY += 22;
-            x -= this._width + 10;
-        } if (index > 19) {
+            x -= this._width;// + 10;
+        } if (index > this.constructor.THIRD_LINE_ITEM_INDEX) {
             mainY += 22;
-            x -= this._width + 10;
+            x -= this._width;// + 10;
         }
-
 
         return {
             x : x,
             y : mainY
         }
+    },
+
+    _getLastLiveItemIndex : function () {
+        for (var i = this._items.length -1; i >= 0; i--) {
+            if (!this._items[i].isDead()) {
+                return i;
+            }
+        }
+        return null;
     }
 });
 
