@@ -14,7 +14,7 @@ $.Class('Application', {
         this._canvas = $('<canvas width="250" height="400"></canvas>')[0];
         this._keyboard = new Keyboard();
         $('body').append(this._canvas);
-        this._maxBullets = 5;
+        this._maxBullets = 1;
         this._shots = 0;
         this._bullets = {};
     },
@@ -65,7 +65,12 @@ $.Class('Application', {
         var enemyHeight = this._enemy.getHeight();
         var enemyBottom = this._enemy.getPosition().y + enemyHeight;
         var criticalPosition = (this._area.getHeight() - 10);
-        if (enemyHeight < 1 || enemyBottom > criticalPosition) {
+        if (enemyHeight < 1) {
+            var al = new Drawable.Alert(this._area, 'alert', 'You are win.');
+            al.draw();
+            return;
+        }
+        if (enemyBottom > criticalPosition) {
             var al = new Drawable.Alert(this._area, 'alert', 'Game over.');
             al.draw();
             return;

@@ -10,7 +10,7 @@ Drawable.Abstract('Drawable.Bullet', {
 
         this._height = 5;
         this._width = 2;
-        this._step = 10;
+        this._step = 13;
     },
 
     draw : function () {

@@ -6,52 +6,25 @@ Drawable.Abstract('Drawable.User', {
         this._width = 11;
 
         var y = this._area.getHeight() - this._height;
-        this.setPosition(0, y);
+        var x = area.getWidth() / 2 - 5;
+        this.setPosition(x, y);
     },
 
     draw : function () {
         var context = this._context();
+        var x = this._position.x;
+        var y = this._position.y;
 
         context.beginPath();
         context.fillStyle = 'ff9066';
-        context.fillRect(
-            this._position.x,
-            this._position.y + 2,
-            2,
-            6
-        );
-        context.fillRect(
-            this._position.x + 9,
-            this._position.y + 2,
-            2,
-            6
-        );
-        context.fillRect(
-            this._position.x + 2,
-            this._position.y + 4,
-            7,
-            3
-        );
-        context.fillRect(
-            this._position.x + 5,
-            this._position.y,
-            1,
-            4
-        );
+        context.fillRect(x, y + 2, 2, 6);
+        context.fillRect(x + 9, y + 2, 2, 6);
+        context.fillRect(x + 2, y + 4, 7, 3);
+        context.fillRect(x + 5, y, 1, 4);
 
         context.fillStyle = 'fffd68';
-        context.fillRect(
-            this._position.x,
-            this._position.y + 8,
-            2,
-            2
-        );
-        context.fillRect(
-            this._position.x + 9,
-            this._position.y + 8,
-            2,
-            2
-        );
+        context.fillRect(x, y + 8, 2, 2);
+        context.fillRect(x + 9, y + 8, 2, 2);
     },
 
     toRight : function () {

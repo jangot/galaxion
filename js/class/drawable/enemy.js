@@ -53,7 +53,7 @@ Drawable.Abstract('Drawable.Enemy',{
     },
 
     move : function () {
-        var stepVertical = 3;
+        var stepVertical = 4;
         var stepHorizontally = 3
         switch (this._route) {
             case this.constructor.ROUTE_LEFT:
