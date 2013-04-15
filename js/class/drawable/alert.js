@@ -10,7 +10,7 @@ Drawable.Abstract('Drawable.Alert', {
         this._width = 11;
 
         var y = this._area.getHeight()/2;
-        var x = this._area.getWidth() / 2 - 30;
+        var x = this._area.getWidth() / 2 - 40;
         this.setPosition(x, y);
     },
 
