@@ -2,16 +2,23 @@ $.Class('Keyboard', {
 
     _events : null,
     _block : null,
+    _pressed : null,
+
 
     init : function () {
         var self = this;
         this._events = {};
+        this._pressed = {};
+
         $('body').keydown(function (e) {
-            if (self._block) {
-                return;
-            }
-            self._call(e.which);
-        })
+            self._pressed[e.which] = true;
+        });
+        $('body').keyup(function (e) {
+            self._pressed[e.which] = false;
+        });
+        this._interval = setInterval(function () {
+            self._call();
+        }, 100);
     },
 
     onPress : function (keyKode, cb) {
@@ -41,10 +48,15 @@ $.Class('Keyboard', {
         return this;
     },
 
-    _call : function (keyKode) {
-        if (this._events[keyKode]) {
-            for (var i in this._events[keyKode]) {
-                this._events[keyKode][i]();
+    _call : function () {
+        for (var key in this._pressed) {
+            if(!this._pressed[key]) {
+                continue;
+            }
+            if (this._events[key]) {
+                for (var i in this._events[key]) {
+                    this._events[key][i]();
+                }
             }
         }
     }
